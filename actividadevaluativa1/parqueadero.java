@@ -20,7 +20,7 @@ public class parqueadero {
             opcion = scanner.nextInt();
 
             if (opcion == 1) {
-                registrarMoto();
+                registrarMoto(scanner);
             } else if (opcion == 2) {
                 cobrarTarifa(scanner);
             } else if (opcion == 3) {
@@ -41,40 +41,43 @@ public class parqueadero {
         }
     }
 
-    private static void registrarMoto() {
-        Scanner scanner = new Scanner(System.in);
+    private static void registrarMoto(Scanner scanner) {
         mostrarEstadoParqueadero();
         System.out.print("Ingrese el número de puesto (0-19): ");
+
+        while (!scanner.hasNextInt()) {
+            System.out.println("Error: Debe ingresar un número válido.");
+            scanner.next();
+        }
         int puesto = scanner.nextInt();
 
-    
         if (puesto < 0 || puesto >= 20) {
-            System.out.println("Puesto inválido.");
-        
-        }
-        
-
-        if (parqueadero[puesto].equals("DISPONIBLE")) {
-            System.out.print("Ingrese la hora de salida (07-22): ");
-            int horaSalida = scanner.nextInt();
-
-            if (horaSalida < 7 || horaSalida > 22) {
-                System.out.println("Hora fuera del horario permitido.");
-            }
-
-            int tiempo = horaSalida - horaIngreso[puesto];
-            int tarifa = calcularTarifa(tiempo);
-
-            System.out.println("Tiempo estacionado: " + tiempo + " horas.");
-            System.out.println("Total a pagar: $" + tarifa);
-
-            parqueadero[puesto] = "OCUPADO";
-            horaIngreso[puesto] = -1;
-        } else {
-            System.out.println("El puesto esta ocupado.");
+            System.out.println("Error: Puesto inválido.");
+            return;
         }
 
+        if (!parqueadero[puesto].equals("DISPONIBLE")) {
+            System.out.println("Error: El puesto está ocupado.");
+            return;
+        }
+
+        System.out.print("Ingrese la hora de ingreso (07-22): ");
+        while (!scanner.hasNextInt()) {
+            System.out.println("Error: Debe ingresar un número válido.");
+            scanner.next();
+        }
+        int hora = scanner.nextInt();
+
+        if (hora < 7 || hora > 22) {
+            System.out.println("Error: Hora fuera del horario permitido.");
+            return;
+        }
+
+        parqueadero[puesto] = "OCUPADO";
+        horaIngreso[puesto] = hora;
+        System.out.println("Moto registrada en el puesto " + puesto + " a las " + hora + ":00.");
     }
+
 
     private static void cobrarTarifa(Scanner scanner) {
         mostrarEstadoParqueadero();
@@ -115,6 +118,13 @@ public class parqueadero {
         }
 
         int tiempo = horaSalida - horaIngresoMoto;
+
+        if (tiempo < 0) {
+            System.out.println("Error: La hora de salida no puede ser menor que la hora de ingreso.");
+            return;
+        }
+        
+
         int tarifa = calcularTarifa(tiempo);
 
         System.out.println("Tiempo estacionado: " + tiempo + " horas.");
