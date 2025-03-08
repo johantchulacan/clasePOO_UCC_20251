@@ -22,9 +22,7 @@ public class parqueadero {
             if (opcion == 1) {
                 registrarMoto();
             } else if (opcion == 2) {
-                System.out.println("digite el tiempo que duro parqueado");
-                int t = scanner.nextInt();
-                calcularTarifa(t);
+                cobrarTarifa(scanner);
             } else if (opcion == 3) {
                 System.out.println("saliendo del sistema");
             } else {
@@ -76,6 +74,54 @@ public class parqueadero {
             System.out.println("El puesto esta ocupado.");
         }
 
+    }
+
+    private static void cobrarTarifa(Scanner scanner) {
+        mostrarEstadoParqueadero();
+        System.out.print("Ingrese el número de puesto a cobrar (0-19): ");
+
+        while (!scanner.hasNextInt()) {
+            System.out.println("Error: Debe ingresar un número válido.");
+            scanner.next();
+        }
+        int puesto = scanner.nextInt();
+
+        if (puesto < 0 || puesto >= 20) {
+            System.out.println("Error: Puesto inválido.");
+            return;
+        }
+
+        if (!parqueadero[puesto].equals("OCUPADO")) {
+            System.out.println("Error: No hay una moto en este puesto.");
+            return;
+        }
+
+        System.out.print("Ingrese la hora actual (07-22): ");
+        while (!scanner.hasNextInt()) {
+            System.out.println("Error: Debe ingresar un número válido.");
+            scanner.next();
+        }
+        int horaSalida = scanner.nextInt();
+
+        if (horaSalida < 7 || horaSalida > 22) {
+            System.out.println("Error: Hora fuera del horario permitido.");
+            return;
+        }
+
+        int horaIngresoMoto = horaIngreso[puesto];
+        if (horaIngresoMoto == -1) {
+            System.out.println("Error: No hay registro de ingreso para este puesto.");
+            return;
+        }
+
+        int tiempo = horaSalida - horaIngresoMoto;
+        int tarifa = calcularTarifa(tiempo);
+
+        System.out.println("Tiempo estacionado: " + tiempo + " horas.");
+        System.out.println("Total a pagar: $" + tarifa);
+
+        parqueadero[puesto] = "DISPONIBLE";
+        horaIngreso[puesto] = -1;
     }
 
     private static int calcularTarifa(int tiempo) {
