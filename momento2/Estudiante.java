@@ -14,9 +14,9 @@ public class Estudiante {
     public String verificarCreditos(int creditos){
         String cad = "";
         if(creditos < 10){
-            cad= "No puede matricular menos de 10 creditos";
+            cad = "No puede matricular menos de 10 creditos";
         }else{
-            cad= "Sus creditos cumplen con lo requerido";
+            cad = "Sus creditos cumplen con lo requerido";
         }
         return cad;
     }
