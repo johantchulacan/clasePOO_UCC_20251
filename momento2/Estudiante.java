@@ -18,6 +18,50 @@ public class Estudiante {
         this.facultad = facultad;
 
     }
+
+    //metodos get y set o (getter and setter)
+
+    public int getId(){
+        return id;
+    }
+
+    public void setId(int id){
+        this.id = id;
+    }
+
+    public String getNombre(){
+        return nombre;
+    }
+
+    public void setNombre(String nombre){
+        this.nombre = nombre;
+    }
+
+    public String getApellido(){
+        return apellido;
+    }
+
+    public void setApellido(String apellido){
+        this.apellido = apellido;
+    }
+
+    public int getEdad(){
+        return edad;
+    }
+
+    public void setEdad(int edad){
+        this.edad = edad;
+    }
+
+    public String getFacultad(){
+        return facultad;
+    }
+
+    public void setFacultad(String facultad){
+        this.facultad = facultad;
+    }
+
+    
     //metodos
     public void matricularCursos(String curso){
         System.out.println("curso: " + curso + " matriculado!!.");
@@ -31,6 +75,14 @@ public class Estudiante {
             cad = "Sus creditos cumplen con lo requerido";
         }
         return cad;
+    }
+
+    public String toString(){
+        return "Estudiante { id:" + id + 
+        " nombre:" + nombre + 
+        " apellido:" + apellido +
+        " edad:" + edad +
+        " facultad:" + facultad + "}";
     }
 
 }
