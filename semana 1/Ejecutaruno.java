@@ -1,4 +1,4 @@
-public class Ejecutar {
+public class Ejecutaruno {
     public static void main(String[] args){
 
         //mostrar por pantalla
